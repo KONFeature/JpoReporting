@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/interrogation_nav_graph.xml"
+    app:startDestination="@id/launchInterrogationFragment">
+
+    <fragment
+        android:id="@+id/launchInterrogationFragment"
+        android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationFragment"
+        android:label="LaunchInterrogationFragment" >
+        <action
+            android:id="@+id/action_launchInterrogationFragment_to_answeringInterrogationFragment"
+            app:destination="@id/answeringInterrogationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/answeringInterrogationFragment"
+        android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationFragment"
+        android:label="answering_interrogation_fragment"
+        tools:layout="@layout/answering_interrogation_fragment" />
+</navigation>

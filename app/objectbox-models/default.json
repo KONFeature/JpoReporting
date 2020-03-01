@@ -1,0 +1,117 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5997016802077398761",
+      "lastPropertyId": "5:424358185013767361",
+      "name": "InterrogationDataEntity",
+      "properties": [
+        {
+          "id": "1:2124103147732311799",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4672407997351238933",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:1447980625957657098",
+          "name": "age",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "4:2152410139273783816",
+          "name": "start",
+          "type": 10
+        },
+        {
+          "id": "5:424358185013767361",
+          "name": "end",
+          "type": 10
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:4081508959119217107",
+          "name": "answers",
+          "targetId": "3:8513808607714420515"
+        }
+      ]
+    },
+    {
+      "id": "2:3928373795945383804",
+      "lastPropertyId": "3:1758993585045894203",
+      "name": "QuestionDataEntity",
+      "properties": [
+        {
+          "id": "1:6546360915196991725",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7063085154257777422",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "3:1758993585045894203",
+          "name": "type",
+          "type": 5,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8513808607714420515",
+      "lastPropertyId": "4:8364276556176879886",
+      "name": "AnswerDataEntity",
+      "properties": [
+        {
+          "id": "1:2517641467072752371",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3981845309926478189",
+          "name": "rating",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:2298953608704126674",
+          "name": "comment",
+          "type": 9
+        },
+        {
+          "id": "4:8364276556176879886",
+          "name": "questionId",
+          "indexId": "1:2513820786047757896",
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "QuestionDataEntity"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:8513808607714420515",
+  "lastIndexId": "1:2513820786047757896",
+  "lastRelationId": "1:4081508959119217107",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

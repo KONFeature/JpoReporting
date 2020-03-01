@@ -18,10 +18,10 @@ object ObjectBox {
             return boxStore
         }
 
-//        boxStore = MyObjectBox.builder()
-//            .androidContext(context.applicationContext)
-//            .name(DB_NAME)
-//            .build()
+        boxStore = MyObjectBox.builder()
+            .androidContext(context.applicationContext)
+            .name(DB_NAME)
+            .build()
 
         return boxStore
     }

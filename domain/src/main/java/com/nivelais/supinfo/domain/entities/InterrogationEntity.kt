@@ -5,5 +5,7 @@ package com.nivelais.supinfo.domain.entities
  */
 data class InterrogationEntity(
     val id: Long,
-    val questions: HashMap<QuestionEntity, AnswerEntity?> = HashMap()
+    val name: String?,
+    val age: Int?,
+    val answers: Set<AnswerEntity?>
 )

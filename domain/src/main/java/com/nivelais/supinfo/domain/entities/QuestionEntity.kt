@@ -8,9 +8,15 @@ data class QuestionEntity(
     val text: String?,
     val type: Type
 ) {
-    enum class Type {
-        SATISFACTION,
-        RATING,
-        COMMENT
+    enum class Type(val id: Int) {
+        SATISFACTION(0),
+        RATING(1),
+        COMMENT(2);
+
+        companion object {
+            fun fromId(id: Int) =
+                Type.values()
+                    .firstOrNull() { it.id == id }
+        }
     }
 }
