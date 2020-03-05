@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">JpoRating</string>
 
-    <string name="lbl_launch_interrogation_title">Jpo Reporting</string>
-    <string name="hint_launch_interrogation_name">Name</string>
-    <string name="hint_launch_interrogation_age">Age</string>
-    <string name="btn_launch_interrogation_launch">Launch</string>
-
     <string name="lbl_answering_interrogation_status">Answered %d of %d questions</string>
     <string name="btn_answering_interrogation_finish">Finish</string>
 
-    <string name="hint_question_item_rating">Rating, between 1 to 10</string>
-    <string name="hint_question_item_comment">Comment</string>
+    <string name="hint_question_item_rating">Rating, %d on 10</string>
     <string name="lbl_question_item_place">Questions %d out of %d</string>
     <string name="btn_question_item_reset">Reset</string>
     <string name="btn_question_item_validate">Validate</string>

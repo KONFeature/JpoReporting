@@ -11,7 +11,6 @@ class AnswerDataEntityMapper : Mapper<AnswerDataEntity, AnswerEntity>() {
         AnswerEntity(
             from.id,
             from.rating,
-            from.comment,
             questionMapper.map(from.question.target)
         )
 }

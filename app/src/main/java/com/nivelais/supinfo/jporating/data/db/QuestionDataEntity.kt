@@ -11,6 +11,11 @@ data class QuestionDataEntity(
     var id: Long = 0,
 
     /**
+     * The order of the question
+     */
+    val position: Int,
+
+    /**
      * Text of the question
      */
     val text: String,

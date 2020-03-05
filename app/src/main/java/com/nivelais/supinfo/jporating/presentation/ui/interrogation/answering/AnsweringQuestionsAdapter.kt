@@ -2,35 +2,165 @@ package com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
+import com.hsalf.smilerating.BaseRating
 import com.nivelais.supinfo.domain.entities.QuestionEntity
 import com.nivelais.supinfo.jporating.R
-import com.nivelais.supinfo.jporating.databinding.SatisfactionQuestionItemBinding
+import com.nivelais.supinfo.jporating.databinding.SmileyQuestionItemBinding
+import com.nivelais.supinfo.jporating.databinding.ToTenQuestionItemBinding
 
 class AnsweringQuestionsAdapter(
-    private var questions: Set<QuestionEntity>
-) : RecyclerView.Adapter<AnsweringQuestionsAdapter.AnsweringQuestionViewHolder>() {
+    private var questions: List<QuestionEntity>,
+    private val answerCallback: (Long, Int) -> Unit,
+    private val resetCallback: (Long) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnsweringQuestionViewHolder =
-        AnsweringQuestionViewHolder(
-            SatisfactionQuestionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (QuestionEntity.Type.fromId(viewType)) {
+            QuestionEntity.Type.SMILEY -> SmileyQuestionViewHolder(
+                SmileyQuestionItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> ToTenQuestionViewHolder(
+                ToTenQuestionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+        }
 
     override fun getItemCount(): Int = questions.size
 
-    override fun onBindViewHolder(holder: AnsweringQuestionViewHolder, position: Int) =
-        holder.bind(questions.elementAt(position), position, questions.size)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is AnsweringQuestionViewHolder) {
+            holder.bind(
+                questions[position],
+                position,
+                questions.size,
+                answerCallback,
+                resetCallback
+            )
+        }
+    }
 
-    class AnsweringQuestionViewHolder(val binding: SatisfactionQuestionItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    override fun getItemViewType(position: Int) = questions.elementAt(position).type.id
 
-        fun bind(question: QuestionEntity, position: Int, size: Int) {
+    interface AnsweringQuestionViewHolder {
+        fun bind(
+            question: QuestionEntity, position: Int, size: Int,
+            answerCallback: (Long, Int) -> Unit,
+            resetCallback: (Long) -> Unit
+        )
+    }
+
+    /**
+     * View holder for a seekbar questions
+     */
+    class ToTenQuestionViewHolder(val binding: ToTenQuestionItemBinding) :
+        RecyclerView.ViewHolder(binding.root), AnsweringQuestionViewHolder {
+
+        override fun bind(
+            question: QuestionEntity,
+            position: Int,
+            size: Int,
+            answerCallback: (Long, Int) -> Unit,
+            resetCallback: (Long) -> Unit
+        ) {
             // Bind view element
             binding.textQuestion.text = question.text
-            binding.textPlace.text = binding.root.context.getString(R.string.lbl_question_item_place, position + 1, size)
+            binding.textPlace.text =
+                binding.root.context.getString(R.string.lbl_question_item_place, position + 1, size)
+            binding.textHintSeekbar.text = binding.root.context.getString(
+                R.string.hint_question_item_rating,
+                binding.seekRating.progress
+            )
+
+            // Reset button
+            binding.btnReset.setOnClickListener {
+                // Reset seekbar & text
+                binding.seekRating.progress = 5
+                // Disable button
+                binding.btnReset.isEnabled = false
+                // Call the reset callback
+                resetCallback.invoke(question.id)
+            }
+
+            // On rating change
+            binding.seekRating.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    // Update the text
+                    binding.textHintSeekbar.text = binding.root.context.getString(
+                        R.string.hint_question_item_rating,
+                        progress
+                    )
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+
+            // Listen to the validate button
+            binding.btnValidate.setOnClickListener {
+                // enable reset button
+                binding.btnReset.isEnabled = true
+                // Call to the reset callback
+                answerCallback.invoke(question.id, binding.seekRating.progress)
+            }
+        }
+    }
+
+    /**
+     * View holder for a smiley questions
+     */
+    class SmileyQuestionViewHolder(val binding: SmileyQuestionItemBinding) :
+        RecyclerView.ViewHolder(binding.root), AnsweringQuestionViewHolder {
+
+        override fun bind(
+            question: QuestionEntity,
+            position: Int,
+            size: Int,
+            answerCallback: (Long, Int) -> Unit,
+            resetCallback: (Long) -> Unit
+        ) {
+            // Bind view element
+            binding.textQuestion.text = question.text
+            binding.textPlace.text =
+                binding.root.context.getString(R.string.lbl_question_item_place, position + 1, size)
+
+            // Reset smiley rating button
+            binding.btnReset.setOnClickListener {
+                // Reset selected smile
+                binding.smileRating.selectedSmile = BaseRating.NONE
+                // Disable button
+                binding.btnReset.isEnabled = false
+                // Call to the callback
+                resetCallback.invoke(question.id)
+            }
 
             // Bind callback
+            binding.smileRating.setOnRatingSelectedListener { level, reselected ->
+                // Enable reset button
+                binding.btnReset.isEnabled = true
 
+                // Call to the callback
+                if (!reselected)
+                    answerCallback.invoke(question.id, convertSmileRatingToTen(level))
+            }
         }
+
+        private fun convertSmileRatingToTen(smileRating: Int) =
+            when (smileRating - 1) {
+                BaseRating.TERRIBLE -> 0
+                BaseRating.BAD -> 2
+                BaseRating.OKAY -> 5
+                BaseRating.GOOD -> 7
+                BaseRating.GREAT -> 10
+                else -> 0
+            }
     }
 }

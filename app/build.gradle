@@ -64,6 +64,9 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
+    // Smiley Rating
+    implementation "com.github.sujithkanna:smileyrating:$rootProject.ext.versions.smiley_rating"
+
     // Load domains modules
     implementation project(':domain')
 }

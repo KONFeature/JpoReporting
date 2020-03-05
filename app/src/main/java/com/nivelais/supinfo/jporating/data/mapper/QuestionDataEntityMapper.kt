@@ -9,6 +9,7 @@ class QuestionDataEntityMapper : Mapper<QuestionDataEntity, QuestionEntity>() {
         QuestionEntity(
             from.id,
             from.text,
-            QuestionEntity.Type.fromId(from.type) ?: QuestionEntity.Type.SATISFACTION
+            from.position,
+            QuestionEntity.Type.fromId(from.type) ?: QuestionEntity.Type.SMILEY
         )
 }

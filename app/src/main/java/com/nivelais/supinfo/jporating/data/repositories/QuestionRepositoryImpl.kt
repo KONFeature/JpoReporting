@@ -29,11 +29,11 @@ class QuestionRepositoryImpl(
     override fun get(): Set<QuestionEntity> {
         val questions = dao.all
         if(questions.size <= 0) {
-            dao.put(QuestionDataEntity(text = "Simple first question ?", type = 0))
-            dao.put(QuestionDataEntity(text = "Simple second question ?", type = 1))
-            dao.put(QuestionDataEntity(text = "Simple third question ?", type = 2))
-            dao.put(QuestionDataEntity(text = "Simple fourth question ?", type = 2))
-            dao.put(QuestionDataEntity(text = "Simple fith question ?", type = 2))
+            dao.put(QuestionDataEntity(text = "Simple first question ?", type = 0, position = 1))
+            dao.put(QuestionDataEntity(text = "Simple second question ?", type = 1, position = 2))
+            dao.put(QuestionDataEntity(text = "Simple third question ?", type = 2, position = 3))
+            dao.put(QuestionDataEntity(text = "Simple fourth question ?", type = 2, position = 4))
+            dao.put(QuestionDataEntity(text = "Simple fith question ?", type = 2, position = 5))
         }
         return entityMapper.mapList(questions).toHashSet()
     }

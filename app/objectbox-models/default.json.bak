@@ -15,6 +15,17 @@
           "flags": 1
         },
         {
+          "id": "2:4672407997351238933",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:1447980625957657098",
+          "name": "age",
+          "type": 5,
+          "flags": 2
+        },
+        {
           "id": "4:2152410139273783816",
           "name": "start",
           "type": 10
@@ -35,7 +46,7 @@
     },
     {
       "id": "2:3928373795945383804",
-      "lastPropertyId": "4:1489360058469863590",
+      "lastPropertyId": "3:1758993585045894203",
       "name": "QuestionDataEntity",
       "properties": [
         {
@@ -52,12 +63,6 @@
         {
           "id": "3:1758993585045894203",
           "name": "type",
-          "type": 5,
-          "flags": 4
-        },
-        {
-          "id": "4:1489360058469863590",
-          "name": "position",
           "type": 5,
           "flags": 4
         }
@@ -82,6 +87,11 @@
           "flags": 2
         },
         {
+          "id": "3:2298953608704126674",
+          "name": "comment",
+          "type": 9
+        },
+        {
           "id": "4:8364276556176879886",
           "name": "questionId",
           "indexId": "1:2513820786047757896",
@@ -101,11 +111,7 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [
-    4672407997351238933,
-    1447980625957657098,
-    2298953608704126674
-  ],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }

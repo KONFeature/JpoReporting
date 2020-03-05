@@ -11,16 +11,6 @@ data class InterrogationDataEntity(
     var id: Long = 0,
 
     /**
-     * Name of the person answering,optional
-     */
-    val name: String?,
-
-    /**
-     * Age of the person answering, optional
-     */
-    val age: Int?,
-
-    /**
      * Start time of the interrogation
      */
     val start: Date,
@@ -28,7 +18,7 @@ data class InterrogationDataEntity(
     /**
      * End time of the interrogation
      */
-    val end: Date?
+    var end: Date?
 ) {
     /**
      * All the answers

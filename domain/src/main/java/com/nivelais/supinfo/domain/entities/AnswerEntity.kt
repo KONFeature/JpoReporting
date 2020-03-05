@@ -6,6 +6,5 @@ package com.nivelais.supinfo.domain.entities
 data class AnswerEntity(
     val id: Long,
     val rating: Int?,
-    val comment: String?,
     val question: QuestionEntity
 )

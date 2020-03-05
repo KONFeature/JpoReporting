@@ -12,12 +12,7 @@ data class AnswerDataEntity(
     /**
      * The rating, if needed
      */
-    val rating: Int?,
-
-    /**
-     * Optional comment on the question / answer if comment question
-     */
-    val comment: String?
+    var rating: Int?
 ) {
     /**
      * The question answered

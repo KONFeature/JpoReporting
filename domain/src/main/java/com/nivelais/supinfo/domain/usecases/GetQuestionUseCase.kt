@@ -5,7 +5,7 @@ import com.nivelais.supinfo.domain.common.Status
 import com.nivelais.supinfo.domain.entities.QuestionEntity
 import com.nivelais.supinfo.domain.repositories.QuestionRepository
 
-class GetQuestionUseCase(val questionRepository: QuestionRepository) :
+class GetQuestionUseCase(private val questionRepository: QuestionRepository) :
     UseCase<Set<QuestionEntity>, Unit>() {
 
     override suspend fun run(params: Unit): Data<Set<QuestionEntity>> {

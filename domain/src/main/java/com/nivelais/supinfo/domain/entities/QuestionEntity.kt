@@ -6,12 +6,12 @@ package com.nivelais.supinfo.domain.entities
 data class QuestionEntity(
     val id: Long,
     val text: String?,
+    val position: Int,
     val type: Type
 ) {
     enum class Type(val id: Int) {
-        SATISFACTION(0),
-        RATING(1),
-        COMMENT(2);
+        SMILEY(0),
+        TO_TEN(1);
 
         companion object {
             fun fromId(id: Int) =

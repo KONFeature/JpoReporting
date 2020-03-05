@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nivelais.supinfo.domain.entities.QuestionEntity
 import com.nivelais.supinfo.jporating.R
 import com.nivelais.supinfo.jporating.databinding.AnsweringInterrogationFragmentBinding
-import com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AnsweringInterrogationFragment : Fragment() {
@@ -36,17 +36,41 @@ class AnsweringInterrogationFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Listen to the list of questions to show
-        viewModel.questionsLive.observe(viewLifecycleOwner) {
-            // Bind all the questions to the view
-            binding.listQuestions.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
-                adapter = AnsweringQuestionsAdapter(it!!)
+        viewModel.questionsLive.observe(viewLifecycleOwner) { questions ->
+            // Init the recycler view if needed
+            if(binding.listQuestions.adapter == null) {
+                initListQuestion(questions)
             }
 
             // Update the text status
-            binding.textStatus.text = getString(R.string.lbl_answering_interrogation_status, 0, it?.count()?:0)
+            binding.textStatus.text =
+                getString(R.string.lbl_answering_interrogation_status, 0, questions?.count() ?: 0)
+        }
+
+        viewModel.answeredCountLive.observe(viewLifecycleOwner) {answerCount ->
+            // Update the text status
+            binding.textStatus.text =
+                getString(R.string.lbl_answering_interrogation_status, answerCount, binding.listQuestions.adapter?.itemCount?:0)
+            // If all the questions are answered we unlock the finish button
+            binding.buttonFinish.isEnabled = answerCount == binding.listQuestions.adapter?.itemCount
         }
     }
 
+    /**
+     * Init the recycler view with the list of questions
+     */
+    private fun initListQuestion(questions: List<QuestionEntity>) {
+        // Bind all the questions to the view
+        binding.listQuestions.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = AnsweringQuestionsAdapter(questions,
+                { questionId, rating ->
+                    viewModel.answerQuestion(questionId, rating)
+                },
+                { questionId ->
+                    viewModel.resetAnswer(questionId)
+                })
+        }
+    }
 }

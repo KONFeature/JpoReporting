@@ -3,16 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/interrogation_nav_graph.xml"
-    app:startDestination="@id/launchInterrogationFragment">
+    app:startDestination="@id/answeringInterrogationFragment">
 
-    <fragment
-        android:id="@+id/launchInterrogationFragment"
-        android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationFragment"
-        android:label="LaunchInterrogationFragment" >
-        <action
-            android:id="@+id/action_launchInterrogationFragment_to_answeringInterrogationFragment"
-            app:destination="@id/answeringInterrogationFragment" />
-    </fragment>
     <fragment
         android:id="@+id/answeringInterrogationFragment"
         android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationFragment"

@@ -5,7 +5,5 @@ package com.nivelais.supinfo.domain.entities
  */
 data class InterrogationEntity(
     val id: Long,
-    val name: String?,
-    val age: Int?,
     val answers: Set<AnswerEntity?>
 )
