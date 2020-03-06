@@ -37,4 +37,6 @@ class QuestionRepositoryImpl(
         }
         return entityMapper.mapList(questions).toHashSet()
     }
+
+    override fun get(questionId: Long) = entityMapper.map(dao.get(questionId))
 }

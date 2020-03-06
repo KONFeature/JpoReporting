@@ -9,5 +9,10 @@
         android:id="@+id/answeringInterrogationFragment"
         android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationFragment"
         android:label="answering_interrogation_fragment"
-        tools:layout="@layout/answering_interrogation_fragment" />
+        tools:layout="@layout/answering_interrogation_fragment" >
+        <action
+            android:id="@+id/action_answeringInterrogationFragment_self"
+            app:destination="@id/answeringInterrogationFragment"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

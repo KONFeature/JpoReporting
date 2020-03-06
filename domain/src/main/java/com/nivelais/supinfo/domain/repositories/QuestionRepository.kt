@@ -15,4 +15,9 @@ interface QuestionRepository {
      */
     fun get() : Set<QuestionEntity>
 
+    /**
+     * Retreive a question from it's id
+     */
+    fun get(questionId: Long) : QuestionEntity
+
 }

@@ -13,4 +13,12 @@ class AnswerDataEntityMapper : Mapper<AnswerDataEntity, AnswerEntity>() {
             from.rating,
             questionMapper.map(from.question.target)
         )
+
+    fun reverseMap(from: AnswerEntity): AnswerDataEntity =
+        AnswerDataEntity(
+            from.id,
+            from.rating
+        ).apply {
+            question.targetId = from.question.id
+        }
 }

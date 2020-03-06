@@ -2,17 +2,36 @@ package com.nivelais.supinfo.domain.usecases
 
 import com.nivelais.supinfo.domain.common.Data
 import com.nivelais.supinfo.domain.common.Status
+import com.nivelais.supinfo.domain.entities.AnswerEntity
+import com.nivelais.supinfo.domain.repositories.AnswerRepository
 import com.nivelais.supinfo.domain.repositories.InterrogationRepository
+import com.nivelais.supinfo.domain.repositories.QuestionRepository
 
-class AnswerQuestionUseCase(private val interrogationRepository: InterrogationRepository) :
+class AnswerQuestionUseCase(
+    private val questionRepository: QuestionRepository,
+    private val interrogationRepository: InterrogationRepository
+) :
     UseCase<Int, AnswerQuestionUseCase.Params>() {
 
     override suspend fun run(params: Params): Data<Int> {
-        return Data(Status.SUCCESSFUL, interrogationRepository.answer(params.questionId, params.rating), null)
+        // Retreive the question answered
+        val question = questionRepository.get(params.questionId)
+
+        // Create the answer
+        val answer = AnswerEntity(rating = params.rating, question = question)
+
+        // Add it to the interrogation
+        interrogationRepository.addAnswer(answer)
+
+        return Data(
+            Status.SUCCESSFUL,
+            null,
+            null
+        )
     }
 
     data class Params(
-        val questionId : Long,
+        val questionId: Long,
         val rating: Int
     )
 }

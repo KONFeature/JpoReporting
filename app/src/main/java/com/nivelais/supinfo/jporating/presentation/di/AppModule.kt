@@ -1,13 +1,14 @@
 package com.nivelais.supinfo.jporating.presentation.di
 
+import com.nivelais.supinfo.domain.repositories.AnswerRepository
 import com.nivelais.supinfo.domain.repositories.InterrogationRepository
 import com.nivelais.supinfo.domain.repositories.QuestionRepository
-import com.nivelais.supinfo.domain.usecases.AnswerQuestionUseCase
-import com.nivelais.supinfo.domain.usecases.GetQuestionUseCase
-import com.nivelais.supinfo.domain.usecases.ResetAnswerUseCase
+import com.nivelais.supinfo.domain.usecases.*
 import com.nivelais.supinfo.jporating.data.db.ObjectBox
+import com.nivelais.supinfo.jporating.data.repositories.AnswerRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.InterrogationRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.QuestionRepositoryImpl
+import com.nivelais.supinfo.jporating.presentation.ui.interrogation.InterrogationViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,6 +27,7 @@ val objectboxModule = module {
 val repositoryModule = module {
     single { InterrogationRepositoryImpl(get()) as InterrogationRepository }
     single { QuestionRepositoryImpl(get()) as QuestionRepository }
+    single { AnswerRepositoryImpl(get()) as AnswerRepository }
 }
 
 /**
@@ -33,13 +35,16 @@ val repositoryModule = module {
  */
 val useCasesModule = module {
     single { GetQuestionUseCase(get()) }
-    single { AnswerQuestionUseCase(get()) }
+    single { AnswerQuestionUseCase(get(), get()) }
     single { ResetAnswerUseCase(get()) }
+    single { FinishInterrogationUseCase(get()) }
+    single { QuestionAnsweredUseCase(get()) }
 }
 
 /**
  * Module pour les view model
  */
 val viewModelModule = module {
-    viewModel { AnsweringInterrogationViewModel(get(), get(), get()) }
+    viewModel { AnsweringInterrogationViewModel(get(), get(), get(), get()) }
+    viewModel { InterrogationViewModel(get(), get(), get()) }
 }

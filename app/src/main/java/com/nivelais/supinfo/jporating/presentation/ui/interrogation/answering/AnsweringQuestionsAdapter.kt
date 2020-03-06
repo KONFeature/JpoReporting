@@ -82,6 +82,7 @@ class AnsweringQuestionsAdapter(
                 binding.seekRating.progress = 5
                 // Disable button
                 binding.btnReset.isEnabled = false
+                binding.btnValidate.isEnabled = true
                 // Call the reset callback
                 resetCallback.invoke(question.id)
             }
@@ -108,6 +109,7 @@ class AnsweringQuestionsAdapter(
             binding.btnValidate.setOnClickListener {
                 // enable reset button
                 binding.btnReset.isEnabled = true
+                binding.btnValidate.isEnabled = false
                 // Call to the reset callback
                 answerCallback.invoke(question.id, binding.seekRating.progress)
             }

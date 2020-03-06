@@ -3,29 +3,38 @@ package com.nivelais.supinfo.domain.repositories
 import com.nivelais.supinfo.domain.common.Data
 import com.nivelais.supinfo.domain.entities.AnswerEntity
 import com.nivelais.supinfo.domain.entities.InterrogationEntity
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 interface InterrogationRepository {
 
     /**
      * Launch a new interrogation
      */
-    fun launch(name: String?, age: Int?) : InterrogationEntity
+    suspend fun launch()
 
     /**
-     * Add an answer to an interrogation
-     * Return the number of questions answered in the interrogation
+     * Listener on the number of question answered
      */
-    fun answer(questionId: Long, rating: Int) : Int
+    suspend fun answeredQuestionListener() : ReceiveChannel<Int>
 
     /**
-     * Reset an answer to an interrogation
-     * Return the number of questions answered in the interrogation
+     * Add an answer to the current interrogation
      */
-    fun resetAnswer(questionId: Long) : Int
+    suspend fun addAnswer(answer: AnswerEntity)
+
+    /**
+     * Remove an answer from the current interrogation
+     */
+    suspend fun removeAnswer(answerId: Long)
+
+    /**
+     * Get the answer to a question from the current interrogation
+     */
+    suspend fun getAnswer(questionId: Long) : AnswerEntity?
 
     /**
      * Finish the current interrogation
      */
-    fun finish()
-
+    suspend fun finish()
 }

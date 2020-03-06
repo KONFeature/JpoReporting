@@ -35,6 +35,8 @@ class AnsweringInterrogationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // Listen to the validate button
+
         // Listen to the list of questions to show
         viewModel.questionsLive.observe(viewLifecycleOwner) { questions ->
             // Init the recycler view if needed
@@ -43,16 +45,23 @@ class AnsweringInterrogationFragment : Fragment() {
             }
 
             // Update the text status
-            binding.textStatus.text =
-                getString(R.string.lbl_answering_interrogation_status, 0, questions?.count() ?: 0)
+//            binding.textStatus.text =
+//                getString(R.string.lbl_answering_interrogation_status, 0, questions?.count() ?: 0)
         }
 
+        // Listen to the count of answered questions
         viewModel.answeredCountLive.observe(viewLifecycleOwner) {answerCount ->
             // Update the text status
-            binding.textStatus.text =
-                getString(R.string.lbl_answering_interrogation_status, answerCount, binding.listQuestions.adapter?.itemCount?:0)
-            // If all the questions are answered we unlock the finish button
-            binding.buttonFinish.isEnabled = answerCount == binding.listQuestions.adapter?.itemCount
+//            binding.textStatus.text =
+//                getString(R.string.lbl_answering_interrogation_status, answerCount, binding.listQuestions.adapter?.itemCount?:0)
+//            // If all the questions are answered we unlock the finish button
+//            binding.buttonFinish.isEnabled = answerCount == binding.listQuestions.adapter?.itemCount
+        }
+
+        // Listen to the reset indicator
+        viewModel.needResetLive.observe(viewLifecycleOwner) {
+            // TODO : Find a way to close the fragment
+            // TODO : Maybe finish button in activity (with progress) ?
         }
     }
 

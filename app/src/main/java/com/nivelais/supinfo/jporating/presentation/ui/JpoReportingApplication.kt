@@ -1,4 +1,4 @@
-package com.nivelais.supinfo.jporating.presentation
+package com.nivelais.supinfo.jporating.presentation.ui
 
 import android.app.Application
 import com.nivelais.supinfo.jporating.presentation.di.objectboxModule
