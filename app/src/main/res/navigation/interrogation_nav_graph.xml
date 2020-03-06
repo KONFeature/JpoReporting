@@ -3,16 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/interrogation_nav_graph.xml"
-    app:startDestination="@id/answeringInterrogationFragment">
+    app:startDestination="@id/launchInterrogationFragment">
 
+    <fragment
+        android:id="@+id/launchInterrogationFragment"
+        android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationFragment"
+        android:label="launch_interrogation_fragment"
+        tools:layout="@layout/launch_interrogation_fragment" >
+        <action
+            android:id="@+id/action_launchInterrogationFragment_to_answeringInterrogationFragment"
+            app:destination="@id/answeringInterrogationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/answeringInterrogationFragment"
         android:name="com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationFragment"
-        android:label="answering_interrogation_fragment"
-        tools:layout="@layout/answering_interrogation_fragment" >
+        android:label="AnsweringInterrogationFragment" >
         <action
             android:id="@+id/action_answeringInterrogationFragment_self"
             app:destination="@id/answeringInterrogationFragment"
-            app:launchSingleTop="true" />
+            app:launchSingleTop="true"/>
     </fragment>
+
 </navigation>

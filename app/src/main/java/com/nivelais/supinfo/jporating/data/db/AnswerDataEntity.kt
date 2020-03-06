@@ -14,6 +14,11 @@ data class AnswerDataEntity(
      */
     var rating: Int?
 ) {
+
+    constructor(id: Long, rating: Int?, questionId: Long) : this(id, rating) {
+        question.targetId = questionId
+    }
+
     /**
      * The question answered
      */

@@ -67,6 +67,9 @@ dependencies {
     // Smiley Rating
     implementation "com.github.sujithkanna:smileyrating:$rootProject.ext.versions.smiley_rating"
 
+    // Open Csv
+    implementation "com.opencsv:opencsv:$rootProject.ext.versions.open_csv"
+
     // Load domains modules
     implementation project(':domain')
 }

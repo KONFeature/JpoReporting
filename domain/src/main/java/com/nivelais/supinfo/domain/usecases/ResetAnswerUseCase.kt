@@ -5,9 +5,9 @@ import com.nivelais.supinfo.domain.common.Status
 import com.nivelais.supinfo.domain.repositories.InterrogationRepository
 
 class ResetAnswerUseCase(private val interrogationRepository: InterrogationRepository) :
-    UseCase<Int, ResetAnswerUseCase.Params>() {
+    UseCase<Unit, ResetAnswerUseCase.Params>() {
 
-    override suspend fun run(params: Params): Data<Int> {
+    override suspend fun run(params: Params): Data<Unit> {
         // Try to fetch the answered question
         val answer = interrogationRepository.getAnswer(params.questionId)
         answer?.let {

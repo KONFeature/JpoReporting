@@ -10,6 +10,7 @@ import com.nivelais.supinfo.jporating.data.repositories.InterrogationRepositoryI
 import com.nivelais.supinfo.jporating.data.repositories.QuestionRepositoryImpl
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.InterrogationViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationViewModel
+import com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,7 +26,7 @@ val objectboxModule = module {
  * Module for all the repository implementation
  */
 val repositoryModule = module {
-    single { InterrogationRepositoryImpl(get()) as InterrogationRepository }
+    single { InterrogationRepositoryImpl(get(), androidContext().filesDir) as InterrogationRepository }
     single { QuestionRepositoryImpl(get()) as QuestionRepository }
     single { AnswerRepositoryImpl(get()) as AnswerRepository }
 }
@@ -34,17 +35,18 @@ val repositoryModule = module {
  * Module for all the use case
  */
 val useCasesModule = module {
-    single { GetQuestionUseCase(get()) }
+    single { LaunchInterrogationUseCase(get(), get()) }
     single { AnswerQuestionUseCase(get(), get()) }
     single { ResetAnswerUseCase(get()) }
     single { FinishInterrogationUseCase(get()) }
-    single { QuestionAnsweredUseCase(get()) }
+    single { SendInterrogationsUseCase(get()) }
 }
 
 /**
  * Module pour les view model
  */
 val viewModelModule = module {
+    viewModel { InterrogationViewModel() }
     viewModel { AnsweringInterrogationViewModel(get(), get(), get(), get()) }
-    viewModel { InterrogationViewModel(get(), get(), get()) }
+    viewModel { LaunchInterrogationViewModel(get()) }
 }

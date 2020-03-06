@@ -134,6 +134,15 @@ class AnsweringQuestionsAdapter(
             binding.textPlace.text =
                 binding.root.context.getString(R.string.lbl_question_item_place, position + 1, size)
 
+            // Setup string ressources on smile
+            binding.smileRating.apply {
+                setNameForSmile(BaseRating.TERRIBLE, R.string.smile_rating_terrible)
+                setNameForSmile(BaseRating.BAD, R.string.smile_rating_bad)
+                setNameForSmile(BaseRating.OKAY, R.string.smile_rating_okay)
+                setNameForSmile(BaseRating.GOOD, R.string.smile_rating_good)
+                setNameForSmile(BaseRating.GREAT, R.string.smile_rating_great)
+            }
+
             // Reset smiley rating button
             binding.btnReset.setOnClickListener {
                 // Reset selected smile

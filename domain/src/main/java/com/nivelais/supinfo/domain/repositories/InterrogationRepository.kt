@@ -11,12 +11,7 @@ interface InterrogationRepository {
     /**
      * Launch a new interrogation
      */
-    suspend fun launch()
-
-    /**
-     * Listener on the number of question answered
-     */
-    suspend fun answeredQuestionListener() : ReceiveChannel<Int>
+    suspend fun launch() : ReceiveChannel<Int>
 
     /**
      * Add an answer to the current interrogation
@@ -37,4 +32,9 @@ interface InterrogationRepository {
      * Finish the current interrogation
      */
     suspend fun finish()
+
+    /**
+     * Generate a CSV summary of all the interrogation done on this device
+     */
+    suspend fun generateCsvRecap()
 }

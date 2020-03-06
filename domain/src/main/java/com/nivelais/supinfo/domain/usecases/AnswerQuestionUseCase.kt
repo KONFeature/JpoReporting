@@ -11,9 +11,9 @@ class AnswerQuestionUseCase(
     private val questionRepository: QuestionRepository,
     private val interrogationRepository: InterrogationRepository
 ) :
-    UseCase<Int, AnswerQuestionUseCase.Params>() {
+    UseCase<Unit, AnswerQuestionUseCase.Params>() {
 
-    override suspend fun run(params: Params): Data<Int> {
+    override suspend fun run(params: Params): Data<Unit> {
         // Retreive the question answered
         val question = questionRepository.get(params.questionId)
 

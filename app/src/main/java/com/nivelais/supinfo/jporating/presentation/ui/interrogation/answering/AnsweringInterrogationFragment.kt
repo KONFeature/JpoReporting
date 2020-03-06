@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nivelais.supinfo.domain.entities.QuestionEntity
 import com.nivelais.supinfo.jporating.R
@@ -35,33 +36,31 @@ class AnsweringInterrogationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Listen to the validate button
+        // Listen to the finish button
+        binding.buttonFinish.setOnClickListener {
+            // Send the action to the view model
+            viewModel.finishInterrogation()
+
+            // Reset the fragment
+            findNavController().navigate(AnsweringInterrogationFragmentDirections.actionAnsweringInterrogationFragmentSelf())
+        }
 
         // Listen to the list of questions to show
         viewModel.questionsLive.observe(viewLifecycleOwner) { questions ->
             // Init the recycler view if needed
-            if(binding.listQuestions.adapter == null) {
+            if (binding.listQuestions.adapter == null) {
                 initListQuestion(questions)
             }
-
-            // Update the text status
-//            binding.textStatus.text =
-//                getString(R.string.lbl_answering_interrogation_status, 0, questions?.count() ?: 0)
         }
 
-        // Listen to the count of answered questions
-        viewModel.answeredCountLive.observe(viewLifecycleOwner) {answerCount ->
-            // Update the text status
-//            binding.textStatus.text =
-//                getString(R.string.lbl_answering_interrogation_status, answerCount, binding.listQuestions.adapter?.itemCount?:0)
-//            // If all the questions are answered we unlock the finish button
-//            binding.buttonFinish.isEnabled = answerCount == binding.listQuestions.adapter?.itemCount
-        }
+        // Listen to the state of the view live data
+        viewModel.stateLive.observe(viewLifecycleOwner) {
+            // Update state text
+            binding.textStatus.text =
+                getString(R.string.lbl_answering_interrogation_status, it.answersCount, it.questionsCount)
 
-        // Listen to the reset indicator
-        viewModel.needResetLive.observe(viewLifecycleOwner) {
-            // TODO : Find a way to close the fragment
-            // TODO : Maybe finish button in activity (with progress) ?
+            // Update finish button visibility
+            binding.buttonFinish.isEnabled = it.finishEnabled
         }
     }
 

@@ -22,21 +22,18 @@ class QuestionRepositoryImpl(
      */
     private val entityMapper = QuestionDataEntityMapper()
 
-    override fun create(question: QuestionEntity) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun get(): Set<QuestionEntity> {
-        val questions = dao.all
+    override suspend fun get(): Set<QuestionEntity> {
+        var questions = dao.all
         if(questions.size <= 0) {
-            dao.put(QuestionDataEntity(text = "Simple first question ?", type = 0, position = 1))
-            dao.put(QuestionDataEntity(text = "Simple second question ?", type = 1, position = 2))
-            dao.put(QuestionDataEntity(text = "Simple third question ?", type = 2, position = 3))
-            dao.put(QuestionDataEntity(text = "Simple fourth question ?", type = 2, position = 4))
-            dao.put(QuestionDataEntity(text = "Simple fith question ?", type = 2, position = 5))
+            dao.put(QuestionDataEntity(text = "Avez-vous été bien accueilli(e- s) à votre arrivée ?", type = 0, position = 1))
+            dao.put(QuestionDataEntity(text = "L'étudiant(e) qui vous accompagnait a-t-il(elle) facilité votre visite ?", type = 0, position = 2))
+            dao.put(QuestionDataEntity(text = "Pôle Projet : les projets présentés vous ont-ils permis de visualiser ce que nous étudions ?", type = 0, position = 3))
+            dao.put(QuestionDataEntity(text = "Conférence générale : a-t-elle abordé les points essentiels vous permettant de faire votre choix d’école ?", type = 0, position = 4))
+            dao.put(QuestionDataEntity(text = "Conférence entreprises : vous a-t-elle permis de mesurer notre partenariat avec les professionnels du secteur ?", type = 0, position = 5))
+            questions = dao.all
         }
         return entityMapper.mapList(questions).toHashSet()
     }
 
-    override fun get(questionId: Long) = entityMapper.map(dao.get(questionId))
+    override suspend fun get(questionId: Long) = entityMapper.map(dao.get(questionId))
 }

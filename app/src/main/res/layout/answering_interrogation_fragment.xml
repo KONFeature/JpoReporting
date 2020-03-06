@@ -6,12 +6,38 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.ui.interrogation.answering.AnsweringInterrogationFragment">
+    tools:context=".presentation.ui.interrogation.launch.LaunchInterrogationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_questions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/lbl_answering_interrogation_status" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/btn_answering_interrogation_finish" />
+
+    </LinearLayout>
 
 </LinearLayout>
