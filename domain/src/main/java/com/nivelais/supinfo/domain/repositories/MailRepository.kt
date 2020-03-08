@@ -1,11 +1,12 @@
 package com.nivelais.supinfo.domain.repositories
 
-import com.nivelais.supinfo.domain.common.Data
-import com.nivelais.supinfo.domain.entities.AnswerEntity
-import com.nivelais.supinfo.domain.entities.InterrogationEntity
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
+import java.io.File
 
 interface MailRepository {
+
+    /**
+     * Send the report of all the interrogation done via mail
+     */
+    suspend fun sendJpoReportMail(file: File)
 
 }

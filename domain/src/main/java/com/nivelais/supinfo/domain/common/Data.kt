@@ -1,7 +1,5 @@
 package com.nivelais.supinfo.domain.common
 
-import java.lang.Exception
-
 /**
  * A generic wrapper class around data request
  */

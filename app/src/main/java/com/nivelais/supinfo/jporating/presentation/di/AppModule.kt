@@ -2,11 +2,13 @@ package com.nivelais.supinfo.jporating.presentation.di
 
 import com.nivelais.supinfo.domain.repositories.AnswerRepository
 import com.nivelais.supinfo.domain.repositories.InterrogationRepository
+import com.nivelais.supinfo.domain.repositories.MailRepository
 import com.nivelais.supinfo.domain.repositories.QuestionRepository
 import com.nivelais.supinfo.domain.usecases.*
 import com.nivelais.supinfo.jporating.data.db.ObjectBox
 import com.nivelais.supinfo.jporating.data.repositories.AnswerRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.InterrogationRepositoryImpl
+import com.nivelais.supinfo.jporating.data.repositories.MailRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.QuestionRepositoryImpl
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.InterrogationViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationViewModel
@@ -29,6 +31,7 @@ val repositoryModule = module {
     single { InterrogationRepositoryImpl(get(), androidContext().filesDir) as InterrogationRepository }
     single { QuestionRepositoryImpl(get()) as QuestionRepository }
     single { AnswerRepositoryImpl(get()) as AnswerRepository }
+    single { MailRepositoryImpl() as MailRepository }
 }
 
 /**
@@ -39,7 +42,7 @@ val useCasesModule = module {
     single { AnswerQuestionUseCase(get(), get(), get()) }
     single { ResetAnswerUseCase(get()) }
     single { FinishInterrogationUseCase(get()) }
-    single { SendInterrogationsUseCase(get()) }
+    single { SendInterrogationsUseCase(get(), get()) }
 }
 
 /**

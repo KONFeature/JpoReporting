@@ -133,7 +133,7 @@ class InterrogationRepositoryImpl(
         answeredQuestionChannel = null
     }
 
-    override suspend fun generateCsvRecap() {
+    override suspend fun generateCsvRecap() : File {
         if (!csvFolder.exists()) csvFolder.mkdirs()
 
         // Create all the interrogation to print to the csv file
@@ -156,6 +156,9 @@ class InterrogationRepositoryImpl(
         // Write to the file
         writer.writeAll(interrogationsCsv)
         writer.close()
+
+        // Send the generated file as result
+        return csvFile
     }
 
     private suspend fun updateAnsweredCount() {
