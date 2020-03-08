@@ -9,6 +9,7 @@ import com.nivelais.supinfo.domain.repositories.QuestionRepository
 
 class AnswerQuestionUseCase(
     private val questionRepository: QuestionRepository,
+    private val answerRepository: AnswerRepository,
     private val interrogationRepository: InterrogationRepository
 ) :
     UseCase<Unit, AnswerQuestionUseCase.Params>() {
@@ -17,11 +18,18 @@ class AnswerQuestionUseCase(
         // Retreive the question answered
         val question = questionRepository.get(params.questionId)
 
-        // Create the answer
-        val answer = AnswerEntity(rating = params.rating, question = question)
+        // Check if we already have an answer for this question
+        val answer = interrogationRepository.getAnswerForQuestion(question.id)
 
-        // Add it to the interrogation
-        interrogationRepository.addAnswer(answer)
+        answer?.let {
+            // Update the answer rating
+            answer.rating = params.rating
+            answerRepository.updateAnswer(answer)
+        }?:let {
+            // Create a new answer and add it to the current interrogation
+            val newAnswer = AnswerEntity(rating = params.rating, question = question)
+            interrogationRepository.addAnswer(newAnswer)
+        }
 
         return Data(
             Status.SUCCESSFUL,

@@ -2,16 +2,10 @@
 <resources>
     <string name="app_name">JpoRating</string>
 
-    <string name="btn_launch_interrogation_launch">Lancer le questionnaire</string>
-    <string name="btn_launch_interrogation_send_report">Envoyer les resultats</string>
-
     <string name="lbl_answering_interrogation_status">%d questions répondue sur %d</string>
-    <string name="btn_answering_interrogation_finish">Envoyer</string>
 
     <string name="hint_question_item_rating">Notée %d sur 10</string>
     <string name="lbl_question_item_place">Question n°%d sur %d</string>
-    <string name="btn_question_item_reset">Reset</string>
-    <string name="btn_question_item_validate">Valider</string>
 
     <string name="smile_rating_terrible">Terrible</string>
     <string name="smile_rating_bad">Mauvais</string>

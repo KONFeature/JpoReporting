@@ -5,5 +5,5 @@ import java.util.*
 data class InterrogationCsvEntity(
     val start: Date,
     val end: Date,
-    val ratings: List<Int>
+    val ratings: List<String>
 )

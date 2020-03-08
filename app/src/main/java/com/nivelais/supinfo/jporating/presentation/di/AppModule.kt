@@ -36,7 +36,7 @@ val repositoryModule = module {
  */
 val useCasesModule = module {
     single { LaunchInterrogationUseCase(get(), get()) }
-    single { AnswerQuestionUseCase(get(), get()) }
+    single { AnswerQuestionUseCase(get(), get(), get()) }
     single { ResetAnswerUseCase(get()) }
     single { FinishInterrogationUseCase(get()) }
     single { SendInterrogationsUseCase(get()) }

@@ -9,7 +9,7 @@ class ResetAnswerUseCase(private val interrogationRepository: InterrogationRepos
 
     override suspend fun run(params: Params): Data<Unit> {
         // Try to fetch the answered question
-        val answer = interrogationRepository.getAnswer(params.questionId)
+        val answer = interrogationRepository.getAnswerForQuestion(params.questionId)
         answer?.let {
             // If it's founded we remove it
             interrogationRepository.removeAnswer(answerId = it.id)

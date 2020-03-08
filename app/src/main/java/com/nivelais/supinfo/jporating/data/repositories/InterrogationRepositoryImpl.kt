@@ -1,16 +1,13 @@
 package com.nivelais.supinfo.jporating.data.repositories
 
-import android.util.Log
 import com.nivelais.supinfo.domain.entities.AnswerEntity
 import com.nivelais.supinfo.domain.repositories.InterrogationRepository
-import com.nivelais.supinfo.jporating.data.csv.InterrogationCsvEntity
 import com.nivelais.supinfo.jporating.data.db.AnswerDataEntity
 import com.nivelais.supinfo.jporating.data.db.InterrogationDataEntity
 import com.nivelais.supinfo.jporating.data.db.InterrogationDataEntity_
 import com.nivelais.supinfo.jporating.data.mapper.InterrogationDataEntityMapper
+import com.nivelais.supinfo.jporating.data.mapper.InterrogationEntityCsvStringMapper
 import com.opencsv.CSVWriter
-import com.opencsv.bean.ColumnPositionMappingStrategy
-import com.opencsv.bean.StatefulBeanToCsvBuilder
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -19,6 +16,7 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import java.io.File
 import java.io.FileWriter
 import java.util.*
+import java.util.stream.Collectors
 
 class InterrogationRepositoryImpl(
     boxStore: BoxStore,
@@ -36,14 +34,14 @@ class InterrogationRepositoryImpl(
     private val dao: Box<InterrogationDataEntity> = boxStore.boxFor()
 
     /**
-     * Access to our database
+     * Mapper for our database entity
      */
-    private val answerDao: Box<AnswerDataEntity> = boxStore.boxFor()
+    private val entityMapper = InterrogationDataEntityMapper()
 
     /**
      * Mapper for our database entity
      */
-    private val entityMapper = InterrogationDataEntityMapper()
+    private val csvMapper = InterrogationEntityCsvStringMapper()
 
     /**
      * The current interrogation (if any)
@@ -76,20 +74,12 @@ class InterrogationRepositoryImpl(
 
     override suspend fun addAnswer(answerEntity: AnswerEntity) {
         currentInterrogation?.let { interrogation ->
-            // Check if we already have an answer for this question
-            interrogation.answers
-                .firstOrNull { it.question.targetId == answerEntity.question.id }
-                ?.apply {
-                    // Update it's rating
-                    rating = answerEntity.rating
-                } ?: kotlin.run {
-                // Create a new answer
-                val answerData = AnswerDataEntity(rating = answerEntity.rating).apply {
-                    question.targetId = answerEntity.question.id
-                }
-                // Add it to the interrogation
-                interrogation.answers.add(answerData)
+            // Create a new answer
+            val answerData = AnswerDataEntity(rating = answerEntity.rating).apply {
+                question.targetId = answerEntity.question.id
             }
+            // Add it to the interrogation
+            interrogation.answers.add(answerData)
             // Update the interrogation
             interrogation.answers.applyChangesToDb()
         } ?: kotlin.run {
@@ -113,7 +103,7 @@ class InterrogationRepositoryImpl(
         updateAnsweredCount()
     }
 
-    override suspend fun getAnswer(questionId: Long): AnswerEntity? {
+    override suspend fun getAnswerForQuestion(questionId: Long): AnswerEntity? {
         if (currentInterrogation == null) return null
 
         currentInterrogation?.let { dao.attach(it) }
@@ -124,6 +114,12 @@ class InterrogationRepositoryImpl(
 
     override suspend fun finish() {
         currentInterrogation?.let {
+            // TODO : Check the user have answered all the question, else we don't persist it
+            if(it.answers.size < 5) {
+                dao.remove(it.id)
+                return
+            }
+
             // Put the end date and update it
             it.end = Date()
             dao.put(it)
@@ -149,36 +145,17 @@ class InterrogationRepositoryImpl(
             // Stream conversions
             .stream()
             .map { interrogationData ->
-                interrogationData.answers.forEach {
-                    answerDao.attach(it)
-                    Log.w(
-                        "test",
-                        "Target id : ${it.question.targetId}, target ${it.question.target}"
-                    )
-                }
-
                 // Find and order all the rating
-                val ratings = interrogationData.answers
-                    .sortedBy {
-                        it.question.target.position
-                    }
-                    .map { it.rating!! }
-
-                // Create the Csv Entity
-                InterrogationCsvEntity(
-                    interrogationData.start,
-                    interrogationData.end!!,
-                    ratings
-                )
-            }
+                csvMapper.map(entityMapper.map(interrogationData))
+            }.collect(Collectors.toList())
 
         // Create the writer who will write the file
         val csvFile = File(csvFolder, "JpoReport_${Date().time}.csv")
         val writer = CSVWriter(FileWriter(csvFile))
-        val beanWriter = StatefulBeanToCsvBuilder<InterrogationCsvEntity>(writer).build()
 
         // Write to the file
-        beanWriter.write(interrogationsCsv)
+        writer.writeAll(interrogationsCsv)
+        writer.close()
     }
 
     private suspend fun updateAnsweredCount() {

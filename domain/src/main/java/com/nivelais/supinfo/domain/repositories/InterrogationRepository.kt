@@ -26,7 +26,7 @@ interface InterrogationRepository {
     /**
      * Get the answer to a question from the current interrogation
      */
-    suspend fun getAnswer(questionId: Long) : AnswerEntity?
+    suspend fun getAnswerForQuestion(questionId: Long) : AnswerEntity?
 
     /**
      * Finish the current interrogation

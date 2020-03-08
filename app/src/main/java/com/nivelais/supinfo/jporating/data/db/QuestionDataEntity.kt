@@ -1,9 +1,7 @@
 package com.nivelais.supinfo.jporating.data.db
 
-import com.nivelais.supinfo.domain.entities.QuestionEntity
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import io.objectbox.relation.ToOne
 
 @Entity
 data class QuestionDataEntity(

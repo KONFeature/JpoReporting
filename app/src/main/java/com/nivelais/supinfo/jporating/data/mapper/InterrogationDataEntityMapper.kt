@@ -9,6 +9,8 @@ class InterrogationDataEntityMapper : Mapper<InterrogationDataEntity, Interrogat
 
     override fun map(from: InterrogationDataEntity): InterrogationEntity = InterrogationEntity(
         from.id,
+        from.start,
+        from.end,
         answerMapper.mapListToSet(from.answers)
     )
 }

@@ -5,13 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.nivelais.supinfo.domain.entities.QuestionEntity
 import com.nivelais.supinfo.jporating.databinding.AnsweringInterrogationFragmentBinding
 import com.nivelais.supinfo.jporating.databinding.LaunchInterrogationFragmentBinding
-import com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringQuestionsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchInterrogationFragment : Fragment() {
