@@ -7,7 +7,7 @@ import com.nivelais.supinfo.jporating.data.db.InterrogationDataEntity
 import com.nivelais.supinfo.jporating.data.db.InterrogationDataEntity_
 import com.nivelais.supinfo.jporating.data.mapper.InterrogationDataEntityMapper
 import com.nivelais.supinfo.jporating.data.mapper.InterrogationEntityCsvStringMapper
-import com.opencsv.CSVWriter
+import com.opencsv.CSVWriterBuilder
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -95,6 +95,7 @@ class InterrogationRepositoryImpl(
     override suspend fun removeAnswer(answerId: Long) {
         currentInterrogation?.let { interrogation ->
             // Remove the answer and update interrogation
+            interrogation.answers.setRemoveFromTargetBox(true)
             interrogation.answers.removeById(answerId)
             interrogation.answers.applyChangesToDb()
         }
@@ -106,16 +107,21 @@ class InterrogationRepositoryImpl(
     override suspend fun getAnswerForQuestion(questionId: Long): AnswerEntity? {
         if (currentInterrogation == null) return null
 
-        currentInterrogation?.let { dao.attach(it) }
-        return entityMapper.map(currentInterrogation!!).answers.firstOrNull { answerEntity ->
-            answerEntity?.question?.id == questionId
-        }
+        // Refresh current interrogation
+        currentInterrogation = dao.get(currentInterrogation!!.id)
+        // Try to find the answer
+        return entityMapper
+            .map(currentInterrogation!!)
+            .answers
+            .firstOrNull { answerEntity ->
+                answerEntity.question.id == questionId
+            }
     }
 
     override suspend fun finish() {
         currentInterrogation?.let {
             // TODO : Check the user have answered all the question, else we don't persist it
-            if(it.answers.size < 5) {
+            if (it.answers.size < 5) {
                 dao.remove(it.id)
                 return
             }
@@ -133,7 +139,7 @@ class InterrogationRepositoryImpl(
         answeredQuestionChannel = null
     }
 
-    override suspend fun generateCsvRecap() : File {
+    override suspend fun generateCsvRecap(): File {
         if (!csvFolder.exists()) csvFolder.mkdirs()
 
         // Create all the interrogation to print to the csv file
@@ -151,7 +157,10 @@ class InterrogationRepositoryImpl(
 
         // Create the writer who will write the file
         val csvFile = File(csvFolder, "JpoReport_${Date().time}.csv")
-        val writer = CSVWriter(FileWriter(csvFile))
+        val writer = CSVWriterBuilder(FileWriter(csvFile))
+            .withSeparator(';')
+            .build()
+
 
         // Write to the file
         writer.writeAll(interrogationsCsv)

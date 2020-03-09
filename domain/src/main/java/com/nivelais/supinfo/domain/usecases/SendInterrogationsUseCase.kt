@@ -15,6 +15,9 @@ class SendInterrogationsUseCase(
         interrogationRepository.generateCsvRecap()?.let { recapFile ->
             // Send The generated recap file via mail
             mailRepository.sendJpoReportMail(recapFile)
+
+            // Delete the generated file when the mail is sent
+            recapFile.delete()
         }
 
         return Data(Status.SUCCESSFUL, null, null)

@@ -70,6 +70,10 @@ dependencies {
     // Open Csv
     implementation "com.opencsv:opencsv:$rootProject.ext.versions.open_csv"
 
+    // Mail client
+    implementation "com.sun.mail:android-mail:$rootProject.ext.versions.mail"
+    implementation "com.sun.mail:android-activation:$rootProject.ext.versions.mail"
+
     // Load domains modules
     implementation project(':domain')
 }

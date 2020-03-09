@@ -159,8 +159,7 @@ class AnsweringQuestionsAdapter(
                 binding.btnReset.isEnabled = true
 
                 // Call to the callback
-                if (!reselected)
-                    answerCallback.invoke(question.id, convertSmileRatingToTen(level))
+                answerCallback.invoke(question.id, convertSmileRatingToTen(level))
             }
         }
 
