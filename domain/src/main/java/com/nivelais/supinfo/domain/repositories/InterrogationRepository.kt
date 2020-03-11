@@ -27,6 +27,11 @@ interface InterrogationRepository {
     suspend fun getAnswerForQuestion(questionId: Long) : AnswerEntity?
 
     /**
+     * Remove all the interrogation
+     */
+    suspend fun removeAll()
+
+    /**
      * Finish the current interrogation
      */
     suspend fun finish()

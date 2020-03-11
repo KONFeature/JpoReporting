@@ -72,11 +72,11 @@ class InterrogationRepositoryImpl(
         return answeredQuestionChannel!!
     }
 
-    override suspend fun addAnswer(answerEntity: AnswerEntity) {
+    override suspend fun addAnswer(answer: AnswerEntity) {
         currentInterrogation?.let { interrogation ->
             // Create a new answer
-            val answerData = AnswerDataEntity(rating = answerEntity.rating).apply {
-                question.targetId = answerEntity.question.id
+            val answerData = AnswerDataEntity(rating = answer.rating).apply {
+                question.targetId = answer.question.id
             }
             // Add it to the interrogation
             interrogation.answers.add(answerData)
@@ -85,7 +85,7 @@ class InterrogationRepositoryImpl(
         } ?: kotlin.run {
             // Create the interrogation and relaunch this operation
             launch()
-            addAnswer(answerEntity)
+            addAnswer(answer)
         }
 
         // Refresh the listener
@@ -118,10 +118,14 @@ class InterrogationRepositoryImpl(
             }
     }
 
+    override suspend fun removeAll() {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun finish() {
         currentInterrogation?.let {
-            // TODO : Check the user have answered all the question, else we don't persist it
-            if (it.answers.size < 5) {
+            // Check the user have answered all the question, else we don't persist it
+            if (it.answers.size < 6) {
                 dao.remove(it.id)
                 return
             }
@@ -163,6 +167,7 @@ class InterrogationRepositoryImpl(
 
 
         // Write to the file
+        writer.writeNext(csvMapper.getCsvHeader())
         writer.writeAll(interrogationsCsv)
         writer.close()
 

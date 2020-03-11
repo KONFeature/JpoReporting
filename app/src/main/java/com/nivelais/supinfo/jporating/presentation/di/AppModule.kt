@@ -10,6 +10,7 @@ import com.nivelais.supinfo.jporating.data.repositories.AnswerRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.InterrogationRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.MailRepositoryImpl
 import com.nivelais.supinfo.jporating.data.repositories.QuestionRepositoryImpl
+import com.nivelais.supinfo.jporating.presentation.ui.dialog.confirmation.PinConfirmationDialogViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.InterrogationViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.answering.AnsweringInterrogationViewModel
 import com.nivelais.supinfo.jporating.presentation.ui.interrogation.launch.LaunchInterrogationViewModel
@@ -43,6 +44,7 @@ val useCasesModule = module {
     single { ResetAnswerUseCase(get()) }
     single { FinishInterrogationUseCase(get()) }
     single { SendInterrogationsUseCase(get(), get()) }
+    single { ClearInterrogationsUseCase(get()) }
 }
 
 /**
@@ -51,5 +53,6 @@ val useCasesModule = module {
 val viewModelModule = module {
     viewModel { InterrogationViewModel() }
     viewModel { AnsweringInterrogationViewModel(get(), get(), get(), get()) }
-    viewModel { LaunchInterrogationViewModel(get()) }
+    viewModel { LaunchInterrogationViewModel(get(), get()) }
+    viewModel { PinConfirmationDialogViewModel() }
 }

@@ -4,10 +4,7 @@ import com.nivelais.supinfo.domain.repositories.MailRepository
 import java.io.File
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
-import javax.mail.Message
-import javax.mail.PasswordAuthentication
-import javax.mail.Session
-import javax.mail.Transport
+import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
@@ -21,7 +18,14 @@ class MailRepositoryImpl : MailRepository {
         private const val EMAIL = "jpo.reporting@gmail.com"
         private const val PASS = "achanger"
 
-        private const val RECEIVER_EMAIL = "quentin@nivelais.com"
+        private val RECEIVER_EMAILS = Array<Address>(3) {position ->
+            when(position) {
+                0 -> InternetAddress("nantes@supinfo.com")
+                1 -> InternetAddress("guillaume.hyon@supinfo.com")
+                else -> InternetAddress("maxime.peniguel@supinfo.com")
+            }
+        }
+        private const val CC_RECEIVER_EMAIL = "quentin@nivelais.com"
     }
 
     override suspend fun sendJpoReportMail(file: File) {
@@ -43,9 +47,9 @@ class MailRepositoryImpl : MailRepository {
         // Create mail object with sender, receiver and subject
         val mail = MimeMessage(session).apply {
             setFrom(InternetAddress(EMAIL))
-            addRecipient(
+            addRecipients(
                 Message.RecipientType.TO,
-                InternetAddress(RECEIVER_EMAIL)
+                RECEIVER_EMAILS
             )
             subject = "Compte rendu JPO."
         }

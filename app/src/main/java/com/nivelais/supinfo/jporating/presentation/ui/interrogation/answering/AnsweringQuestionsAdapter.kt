@@ -154,7 +154,7 @@ class AnsweringQuestionsAdapter(
             }
 
             // Bind callback
-            binding.smileRating.setOnRatingSelectedListener { level, reselected ->
+            binding.smileRating.setOnRatingSelectedListener { level, _ ->
                 // Enable reset button
                 binding.btnReset.isEnabled = true
 

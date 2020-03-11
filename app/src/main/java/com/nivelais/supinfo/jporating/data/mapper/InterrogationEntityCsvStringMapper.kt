@@ -29,4 +29,17 @@ class InterrogationEntityCsvStringMapper : Mapper<InterrogationEntity, Array<Str
             }
         }
     }
+
+    /**
+     * Get the header for the CSV File
+     */
+    fun getCsvHeader() : Array<String> {
+        return Array(BASE_COLUMN_COUNT + 6) { position ->
+            when(position) {
+                0 -> "Debut"
+                1 -> "Fin"
+                else -> "Question ${position - BASE_COLUMN_COUNT}"
+            }
+        }
+    }
 }

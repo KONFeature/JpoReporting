@@ -2,7 +2,8 @@
     <string name="app_name">JpoRating</string>
 
     <string name="btn_launch_interrogation_launch">Launch interrogation</string>
-    <string name="btn_launch_interrogation_send_report">Send interrogation report</string>
+    <string name="btn_launch_interrogation_send_report">Send interrogations report</string>
+    <string name="btn_launch_interrogation_clear_report">Reset interrogations report</string>
 
     <string name="lbl_answering_interrogation_status">Answered %d of %d questions</string>
     <string name="btn_answering_interrogation_finish">Finish</string>
@@ -17,4 +18,9 @@
     <string name="smile_rating_okay">Okay</string>
     <string name="smile_rating_good">Good</string>
     <string name="smile_rating_great">Great</string>
+
+    <string name="lbl_confirm_dialog_title">Are you sure you want to do this ?</string>
+    <string name="hint_confirm_dialog_pin">Pin code</string>
+    <string name="btn_confirm_dialog_yes">Yes</string>
+    <string name="btn_confirm_dialog_no">No</string>
 </resources>

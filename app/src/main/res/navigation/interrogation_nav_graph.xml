@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_launchInterrogationFragment_to_answeringInterrogationFragment"
             app:destination="@id/answeringInterrogationFragment" />
+        <action
+            android:id="@+id/action_launchInterrogationFragment_to_pinConfirmationDialogFragment"
+            app:destination="@id/pinConfirmationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/answeringInterrogationFragment"
@@ -23,5 +26,11 @@
             app:destination="@id/answeringInterrogationFragment"
             app:launchSingleTop="true"/>
     </fragment>
+    <dialog
+        android:id="@+id/pinConfirmationDialogFragment"
+        android:name="com.nivelais.supinfo.jporating.presentation.ui.dialog.confirmation.PinConfirmationDialogFragment"
+        android:label="PinConfirmationDialogFragment">
+        <argument android:name="resultKey" app:argType="string" />
+    </dialog>
 
 </navigation>

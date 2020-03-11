@@ -30,6 +30,7 @@ class QuestionRepositoryImpl(
             dao.put(QuestionDataEntity(text = "Pôle Projet : les projets présentés vous ont-ils permis de visualiser ce que nous étudions ?", type = 0, position = 3))
             dao.put(QuestionDataEntity(text = "Conférence générale : a-t-elle abordé les points essentiels vous permettant de faire votre choix d’école ?", type = 0, position = 4))
             dao.put(QuestionDataEntity(text = "Conférence entreprises : vous a-t-elle permis de mesurer notre partenariat avec les professionnels du secteur ?", type = 0, position = 5))
+            dao.put(QuestionDataEntity(text = "Globalement êtes-vous satisfait de cette JPO ?", type = 0, position = 6))
             questions = dao.all
         }
         return entityMapper.mapList(questions).toHashSet()

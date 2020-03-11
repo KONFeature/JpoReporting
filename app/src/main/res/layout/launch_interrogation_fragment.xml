@@ -29,4 +29,11 @@
         android:layout_margin="8dp"
         android:text="@string/btn_launch_interrogation_send_report" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_clear_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/btn_launch_interrogation_clear_report" />
+
 </LinearLayout>
